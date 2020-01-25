@@ -1,0 +1,14 @@
+{
+  "name": "crud-starter",
+  "version": "1.0.0",
+  "description": "Basic crud rest api",
+  "main": "index.js",
+  "scripts": {
+    "test": "text"
+  },
+  "author": "Johan Fredin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
