@@ -22,7 +22,11 @@ const memberRepository = {
         members[id - 1] = modifiedMember;
     },
 
-    deleteMember: (id) => members.splice(id - 1),
+    deleteMember: function(id) {
+        let deleteMember = members[id - 1];
+        members.splice(id - 1);
+        return deleteMember;
+    },
 
     deleteAllMembers: () => members = []
 };
