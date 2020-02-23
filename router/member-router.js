@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const memberRepository = require('./../db/member-repository');
+const memberRepository = require('../db/member-repository');
 
 const STATUS_OK = 200;
 const STATUS_NOT_FOUND = 404;

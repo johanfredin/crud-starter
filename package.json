@@ -4,11 +4,16 @@
   "description": "Basic crud rest api",
   "main": "index.js",
   "scripts": {
-    "test": "text"
+    "test": "text",
+    "dev": "nodemon index"
   },
   "author": "Johan Fredin",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.9.2"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.2"
   }
 }

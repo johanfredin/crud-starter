@@ -1,34 +1,40 @@
-let members = [
-    {
-        id: 1,
-        name: 'Johan',
-        age: 33
-    }, 
-    {
-        id: 2,
-        name: 'Evelyn',
-        age: 34
-    }
-]
+const MemberModel = require('./model/MemberModel');
 
 const memberRepository = {
-    getMembers: () => members,
+    getMembers: async () => {
+        let members;
+        await MemberModel.find().lean().exec((err, result) => {
+            if (err) {
+                console.log("Error")
+            }
+            console.log(`${result.length} members returned`); 
+            members = result;
+        });
+        console.log('members', members);
+        return members;
+    },
 
-    getMember: (id) => members[id - 1],
+    getMember: (id) => 'get',
     
-    addMember: (member) => members.push(member),
+    addMember: async (member) => {
+        const newMember = new MemberModel({
+            name : member.name,
+            age: member.age
+        });
+
+        await newMember.save().then(() => console.log('Member added'));
+        return newMember;
+    },
     
     editMember: (id, modifiedMember) => {
-        members[id - 1] = modifiedMember;
+        'edit';
     },
 
     deleteMember: function(id) {
-        let deleteMember = members[id - 1];
-        members.splice(id - 1);
-        return deleteMember;
+        return 'delete'
     },
 
-    deleteAllMembers: () => members = []
+    deleteAllMembers: () => 'delete all'
 };
 
 module.exports = memberRepository;
