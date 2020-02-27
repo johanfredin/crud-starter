@@ -1,37 +1,64 @@
 const MemberModel = require('./model/MemberModel');
 
 const memberRepository = {
-    getMembers: async () => {
-        let members;
-        await MemberModel.find().lean().exec((err, result) => {
-            if (err) {
-                console.log("Error")
-            }
-            console.log(`${result.length} members returned`); 
-            members = result;
+    getMembers: () => {
+        return new Promise((resolve, reject) => {
+            MemberModel.find().lean().exec((err, members) => {
+                if (err) {
+                    reject(err);
+                }
+                console.log(members.length + ' Members fetched from server')
+                resolve(members);
+            });
         });
-        console.log('members', members);
-        return members;
     },
 
-    getMember: (id) => 'get',
-    
-    addMember: async (member) => {
+    getMember: (id) => {
+        return new Promise((resolve, reject) => {
+            MemberModel.findById(id).lean().exec((err, member) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(member);
+            });
+        });
+    },
+
+    addMember: (member) => {
         const newMember = new MemberModel({
-            name : member.name,
+            name: member.name,
             age: member.age
         });
-
-        await newMember.save().then(() => console.log('Member added'));
-        return newMember;
+        return new Promise((resolve, reject) => {
+            newMember.save()
+                .then(result => resolve(result))
+                .catch(err => reject(err));
+        });
     },
-    
+
     editMember: (id, modifiedMember) => {
-        'edit';
+        return new Promise((resolve, reject) => {
+            MemberModel.findById(id, (err, member) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    member.name = modifiedMember.name
+                    member.age = modifiedMember.age
+                    member.save().then(resolve(member));
+                }
+            });
+        });
     },
 
-    deleteMember: function(id) {
-        return 'delete'
+    deleteMember: (id) => {
+        return new Promise((resolve, reject) => {
+            MemberModel.findByIdAndDelete(id, (err, member) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve({ msg: 'Member deleted' });
+            });
+        });
     },
 
     deleteAllMembers: () => 'delete all'
